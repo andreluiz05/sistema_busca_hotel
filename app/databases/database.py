@@ -1,0 +1,29 @@
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+#Define o local do banco de dados
+SQLALCHEMY_DATABASE_URL = "sqlite:///./app/databases/hotel.db"
+
+# 2. Cria a conexão
+# "check_same_thread": False é necessário apenas para o SQLite trabalhar com FastAPI
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
+
+# Cada vez que precisarmos mexer no banco, criaremos uma instância dessa classe
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+# Todas as suas classes no 'models.py' vão herdar dessa variável 'Base'
+Base = declarative_base()
+
+# --- Função Auxiliar ---
+# Essa função será usada nos Controllers para garantir que a conexão abra e feche corretamente a cada requisição.
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
