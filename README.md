@@ -21,7 +21,7 @@ Esta API permite gerenciar todo o ciclo de vida de uma reserva de hotel, garanti
 
 Para iniciar a api, você precisa:
 
-* **Instalar os Requeriments:** ```pip install -r requeriments.txt```
+* **Instalar os Requeriments:** ```pip install -r requirements.txt```
 * **Configurar o DB a Ser Utilizado:** Ir na pasta do projeto, **app/databases/**, e renomear um dos dois arquivos existentes [database.py.oracle ou database.py.sqlite] para **database.py**.
 * **Iniciar o Servidor:** ``` python -m uvicorn main:app ```
 
