@@ -1,10 +1,7 @@
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
-from app.models.models import HotelDB, HotelCreate
-from app.models.models import AcomodacaoDB, AcomodacaoCreate
-from app.models.models import ClienteDB, ClienteCreate
-from app.models.models import ReservaDB, ReservaCreate
-from app.models.models import PagamentoDB, PagamentoCreate
+from app.models.models import HotelDB, PagamentoDB, AcomodacaoDB, ClienteDB, ReservaDB
+from app.schemas.schema import HotelCreate, AcomodacaoCreate, ClienteCreate, ReservaCreate, PagamentoCreate
 
 class HotelService:
     def criar_hotel(self, db: Session, hotel: HotelCreate):

@@ -1,0 +1,9 @@
+{
+    "driver": "oracledb",
+    "host": "db.freesql.com",
+    "port": 1521,
+    "service": "service",
+    "dsn": "db.freesql.com:1521/23ai_34ui2",
+    "user": "usuario",
+    "password": "Senha"
+}

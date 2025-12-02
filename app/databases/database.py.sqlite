@@ -3,12 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 #Define o local do banco de dados
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app/databases/hotel.db"
+DATABASE_URL = "sqlite:///./app/databases/hotel.db"
 
 # 2. Cria a conexão
 # "check_same_thread": False é necessário apenas para o SQLite trabalhar com FastAPI
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL, connect_args={"check_same_thread": False}
 )
 
 
@@ -16,7 +16,7 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-# Todas as suas classes no 'models.py' vão herdar dessa variável 'Base'
+# Todas as classes no 'models.py' vão herdar dessa variável 'Base'
 Base = declarative_base()
 
 # --- Função Auxiliar ---
