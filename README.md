@@ -1,6 +1,6 @@
 # API Hoteis - AV2 Claudiane 🏖️
 
-![Version](https://img.shields.io/badge/version-0.1.4-blue)
+![Version](https://img.shields.io/badge/version-0.1.5-blue)
 ![OAS](https://img.shields.io/badge/OAS-3.1-orange)
 ![License](https://img.shields.io/badge/license-Apache_2.0-green)
 
@@ -26,7 +26,7 @@ Para iniciar a api, você precisa:
 * **Iniciar o Servidor:** ``` python -m uvicorn main:app ```
 
 Nota: As credenciais do database presente no arquivo *login_live_oracle.json*, precisam ser inseridas ao utilizar DB Oracle Live.
-Nota 2: A pasta [instantclient](https://www.oracle.com/database/technologies/instant-client/downloads.html) é usada exclusivamente para a conexão com DB Oracle.
+Nota 2: A pasta [instantclient](https://www.oracle.com/database/technologies/instant-client/downloads.html) é usada exclusivamente para a conexão com DB Oracle (Thick Mode). Para conexão deve extrair o arquivo *instantclient*.
 Nota 3: O arquivo *hotel.db* presente na pasta *app/databases/* é um DB de exemplo para uso da solução com SQLite. Para inicio limpo, basta exclui-lo.
 
 

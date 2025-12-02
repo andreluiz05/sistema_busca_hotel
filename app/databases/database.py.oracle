@@ -10,7 +10,7 @@ try:
     oracledb.init_oracle_client(lib_dir="instantclient") #Requisito para o modo Thick
     print("Oracle Client inicializado com sucesso.")  
 except:
-    print("Erro ao inicializar o Oracle Client (Thick Mode):")
+    print("Erro ao inicializar o Oracle Client (Thick Mode): Verifique se a pasta 'instantclient' está no local correto.")
     sys.exit(1)
 
 # Carrega as credenciais do banco de um arquivo JSON
