@@ -40,6 +40,8 @@ Para iniciar a api, você precisa:
 ### 💚 Criadores
 * Enio Enrique: [Link Perfil GitHub](https://github.com/dryeniio)
 * André Luiz: [Link Perfil GitHub](https://github.com/andreluiz05)
+* Fernando Vitor:[link perfil github]
+(https://github.com/fernando2907)
 
 ### 📜 Licença
 
