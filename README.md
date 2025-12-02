@@ -25,11 +25,10 @@ Para iniciar a api, você precisa:
 * **Configurar o DB a Ser Utilizado:** Ir na pasta do projeto, **app/databases/**, e renomear um dos dois arquivos existentes [database.py.oracle ou database.py.sqlite] para **database.py**.
 * **Iniciar o Servidor:** ``` python -m uvicorn main:app ```
 
-Nota: As credenciais do database presente no arquivo *login_live_oracle.json*, precisam ser inseridas ao utilizar DB Oracle Live.
-Nota 2: A pasta [instantclient](https://www.oracle.com/database/technologies/instant-client/downloads.html) é usada exclusivamente para a conexão com DB Oracle (Thick Mode). Para conexão deve extrair o arquivo *instantclient*.
-Nota 3: O arquivo *hotel.db* presente na pasta *app/databases/* é um DB de exemplo para uso da solução com SQLite. Para inicio limpo, basta exclui-lo.
-
-
+---
+- Nota: As credenciais do database presente no arquivo *login_live_oracle.json*, precisam ser inseridas ao utilizar DB Oracle Live.
+- Nota 2: A pasta [instantclient](https://www.oracle.com/database/technologies/instant-client/downloads.html) é usada exclusivamente para a conexão com DB Oracle (Thick Mode). Para conexão deve extrair o arquivo *instantclient*.
+- Nota 3: O arquivo *hotel.db* presente na pasta *app/databases/* é um DB de exemplo para uso da solução com SQLite. Para inicio limpo, basta exclui-lo.
 ---
 
 ### 📚 Links Úteis
