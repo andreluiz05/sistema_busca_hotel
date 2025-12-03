@@ -72,9 +72,7 @@ class PagamentoCreate(BaseModel):
 # Feedback Pydantic Models
 
 class FeedbackCreate(BaseModel):
-    cliente_id: int
-    hotel_id: int
-    avaliacao: int
+    nota: int
     comentario: str
     
 # # CargoFuncionario Pydantic Models 

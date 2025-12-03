@@ -31,6 +31,15 @@ tags_metadata = [
         "name": "Clientes",
         "description": "Cadastro e atualização de dados dos hóspedes.",
     },
+    {
+      "name": "Pagamentos",
+      "description": "Processamento e registro de pagamentos das reservas.",  
+    },
+    {
+        "name": "Feedback",
+        "description": "Avaliações e comentários dos clientes sobre suas estadias.",
+    }
+    
 ]
 
 # 3. Injete tudo isso no FastAPI

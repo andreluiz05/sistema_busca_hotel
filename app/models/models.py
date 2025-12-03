@@ -48,6 +48,7 @@ class ReservaDB(Base):
     acomodacao_id = Column(Integer, ForeignKey("acomodacoes.id"))
     data_checkin = Column(String(200))
     data_checkout = Column(String(200))
+    feedback = relationship("FeedbackDB", back_populates="reserva", uselist=False)
     cliente = relationship("ClienteDB", back_populates="reservas")
     acomodacao = relationship("AcomodacaoDB")
     last_payment = relationship("PagamentoDB", uselist=False, back_populates="reserva")
@@ -64,17 +65,28 @@ class PagamentoDB(Base):
     metodo_pagamento = Column(String(200))
     codigo_transacao = Column(String(200))
     reserva = relationship("ReservaDB")
-
+    
 class FeedbackDB(Base):
     __tablename__ = "feedbacks"
     
     id = Column(Integer, primary_key=True)
-    cliente_id = Column(Integer, ForeignKey("clientes.id"))
-    hotel_id = Column(Integer, ForeignKey("hoteis.id"))
-    avaliacao = Column(Integer)
-    comentario = Column(String(200))
-    cliente = relationship("ClienteDB")
-    hotel = relationship("HotelDB")
+    nota = Column(Integer)
+    comentario = Column(String(255))
+    reserva_id = Column(Integer, ForeignKey("reservas.id"), unique=True)
+    reserva = relationship("ReservaDB", back_populates="feedback")
+
+# class FeedbackDB(Base):
+#     __tablename__ = "feedbacks"
+    
+#     id = Column(Integer, primary_key=True)
+#     cliente_id = Column(Integer, ForeignKey("clientes.id"))
+#     hotel_id = Column(Integer, ForeignKey("hoteis.id"))
+#     reserva_id = Column(Integer, ForeignKey("reservas.id"))
+#     avaliacao = Column(Integer)
+#     comentario = Column(String(200))
+#     cliente = relationship("ClienteDB")
+#     hotel = relationship("HotelDB")
+#     reserva = relationship("ReservaDB")
     
 # class CargoFuncionarioDB(Base):
 #     __tablename__ = "cargos_funcionarios"

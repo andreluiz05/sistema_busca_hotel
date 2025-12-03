@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.databases.database import get_db
-from app.models.models import HotelDB, ReservaDB, PagamentoDB, AcomodacaoDB, ClienteDB
-from app.schemas.schema import ReservaCreate, PagamentoCreate, HotelCreate, AcomodacaoCreate, HotelUpdate, ClienteCreate
-from app.services.services import HotelService, AcomodacaoService, ClienteService, ReservaService, PagamentoService
+from app.models.models import HotelDB, ReservaDB, PagamentoDB, AcomodacaoDB, ClienteDB, FeedbackDB
+from app.schemas.schema import ReservaCreate, PagamentoCreate, HotelCreate, AcomodacaoCreate, HotelUpdate, ClienteCreate, ClienteUpdate, AcomodacaoUpdate, FeedbackCreate
+from app.services.services import HotelService, AcomodacaoService, ClienteService, ReservaService, PagamentoService, FeedbackService
 
 router = APIRouter()
 service = HotelService() # Instancia a camada de serviço
@@ -223,7 +223,7 @@ def listar_reservas_por_acomodacao(acomodacao_id: int, db: Session = Depends(get
     reservas = db.query(ReservaDB).filter(ReservaDB.acomodacao_id == acomodacao_id).all()
     return reservas
 
-@router.post("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/criar/", tags=["Reservas"]) # Requisito POST para pagamento
+@router.post("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/criar/", tags=["Pagamentos"]) # Requisito POST para pagamento
 def cadastrar_pagamento(cliente_id: int, reserva_id: int, pagamento: PagamentoCreate, db: Session = Depends(get_db)):
     try:
         # Verifica se a reserva pertence ao cliente
@@ -241,7 +241,7 @@ def cadastrar_pagamento(cliente_id: int, reserva_id: int, pagamento: PagamentoCr
         # Captura o erro da regra de negócio
         raise HTTPException(status_code=400, detail=str(e))
     
-@router.patch("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/{pagamento_id}/atualizar", tags=["Reservas"]) # Requisito PATCH para pagamento
+@router.patch("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/{pagamento_id}/atualizar", tags=["Pagamentos"]) # Requisito PATCH para pagamento
 def atualizar_parcial_pagamento(cliente_id: int, reserva_id: int, pagamento_id: int, pagamento_atualizado: PagamentoCreate, db: Session = Depends(get_db)):
     pagamento = db.query(PagamentoDB).join(ReservaDB).filter(
         PagamentoDB.id == pagamento_id,
@@ -264,11 +264,11 @@ def atualizar_parcial_pagamento(cliente_id: int, reserva_id: int, pagamento_id: 
     return pagamento
     
     
-@router.get("/pagamentos/", tags=["Reservas"]) # Requisito GET para listar pagamentos
+@router.get("/pagamentos/", tags=["Pagamentos"]) # Requisito GET para listar pagamentos
 def listar_pagamentos(db: Session = Depends(get_db)):
     return db.query(PagamentoDB).all()
 
-@router.get("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/{pagamento_id}", tags=["Reservas"]) # Requisito GET por ID de pagamento
+@router.get("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/{pagamento_id}", tags=["Pagamentos"]) # Requisito GET por ID de pagamento
 def obter_pagamento(cliente_id: int, reserva_id: int, pagamento_id: int, db: Session = Depends(get_db)):
     pagamento = db.query(PagamentoDB).join(ReservaDB).filter(
         PagamentoDB.id == pagamento_id,
@@ -279,7 +279,7 @@ def obter_pagamento(cliente_id: int, reserva_id: int, pagamento_id: int, db: Ses
         raise HTTPException(status_code=404, detail="Pagamento não encontrado")
     return pagamento
 
-@router.get("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/", tags=["Reservas"]) # Requisito GET para listar pagamentos de uma reserva'
+@router.get("/clientes/{cliente_id}/reservas/{reserva_id}/pagamentos/", tags=["Pagamentos"]) # Requisito GET para listar pagamentos de uma reserva'
 def listar_pagamentos_por_reserva(cliente_id: int, reserva_id: int, db: Session = Depends(get_db)):
     pagamentos = db.query(PagamentoDB).join(ReservaDB).filter(
         ReservaDB.id == reserva_id,
@@ -287,8 +287,32 @@ def listar_pagamentos_por_reserva(cliente_id: int, reserva_id: int, db: Session 
     ).all()
     return pagamentos
 
-@router.get("/clientes/{cliente_id}/pagamentos/", tags=["Reservas"]) # Requisito GET para listar pagamentos de um cliente
+@router.get("/clientes/{cliente_id}/pagamentos/", tags=["Pagamentos"]) # Requisito GET para listar pagamentos de um cliente
 def listar_pagamentos_por_cliente(cliente_id: int, db: Session = Depends(get_db)):
     pagamentos = db.query(PagamentoDB).join(ReservaDB).filter(ReservaDB.cliente_id == cliente_id).all()
     return pagamentos
 
+@router.post("/clientes/{cliente_id}/reservas/{reserva_id}/feedback/", tags=["Feedback"]) # Requisito POST para feedback
+def cadastrar_feedback(cliente_id: int, reserva_id: int, feedback: FeedbackCreate, db: Session = Depends(get_db)):
+    try:
+        # Verifica se a reserva pertence ao cliente
+        reserva = db.query(ReservaDB).filter(
+            ReservaDB.id == reserva_id,
+            ReservaDB.cliente_id == cliente_id
+        ).first()
+        if reserva is None:
+            raise HTTPException(status_code=404, detail="Reserva não encontrada para o cliente especificado")
+        
+        # Chama o service para resolver
+        novo_feedback = FeedbackService().criar_feedback(db, feedback, reserva_id)
+        return novo_feedback
+    except Exception as e:
+        # Captura o erro da regra de negócio
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@router.get("/hoteis/{hotel_id}/feedbacks/", tags=["Feedback"]) # Requisito GET para listar feedbacks de um hotel
+def listar_feedbacks_por_hotel(hotel_id: int, db: Session = Depends(get_db)):
+    feedbacks = db.query(FeedbackDB).join(ReservaDB).join(AcomodacaoDB).filter(
+        AcomodacaoDB.hotel_id == hotel_id
+    ).all()
+    return feedbacks

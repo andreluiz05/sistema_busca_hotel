@@ -1,7 +1,7 @@
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
-from app.models.models import HotelDB, PagamentoDB, AcomodacaoDB, ClienteDB, ReservaDB
-from app.schemas.schema import HotelCreate, AcomodacaoCreate, ClienteCreate, ReservaCreate, PagamentoCreate
+from app.models.models import HotelDB, PagamentoDB, AcomodacaoDB, ClienteDB, ReservaDB, FeedbackDB
+from app.schemas.schema import HotelCreate, AcomodacaoCreate, ClienteCreate, ReservaCreate, PagamentoCreate, FeedbackCreate
 
 class HotelService:
     def criar_hotel(self, db: Session, hotel: HotelCreate):
@@ -191,3 +191,43 @@ class PagamentoService:
     def obter_pagamento_por_id(self, db: Session, pagamento_id: int):
         # Obtém um pagamento pelo ID
         return db.query(PagamentoDB).filter(PagamentoDB.id == pagamento_id).first()
+
+class FeedbackService:
+    def criar_feedback(self, db: Session, feedback: FeedbackCreate, reserva_id: int):
+        # --- Regra de Negócio ---
+        # Verifica se a reserva existe
+        reserva = db.query(ReservaDB).filter(ReservaDB.id == reserva_id).first()
+        if reserva is None:
+            raise Exception(f"Reserva não encontrada com o ID {reserva_id}")
+        
+        if feedback.nota < 1 or feedback.nota > 5:
+            raise Exception("A nota deve ser entre 1 e 5")
+        
+        if not feedback.comentario:
+            raise Exception("O comentário deve ser informado.")
+        
+        if feedback.comentario.strip() == "":
+            raise Exception("O comentário não pode ser vazio.")
+        
+        if feedback.comentario.isspace():
+            raise Exception("O comentário não pode ser apenas espaços em branco.")
+        
+        if len(feedback.comentario) < 5:
+            raise Exception("O comentário deve ter no mínimo 5 caracteres.")
+        
+        if reserva.feedback is not None:
+            raise Exception("Já existe um feedback para esta reserva.")
+        
+        if len(feedback.comentario) > 255:
+            raise Exception("O comentário deve ter no máximo 255 caracteres.")
+        
+        # Se passou na regra, salva no banco
+        db_feedback = FeedbackDB(
+            nota=feedback.nota,
+            comentario=feedback.comentario,
+            reserva_id=reserva_id,
+        )
+        db.add(db_feedback)
+        db.commit()
+        db.refresh(db_feedback)
+        return db_feedback

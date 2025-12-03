@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 #Define o local do banco de dados
-DATABASE_URL = "sqlite:///./app/databases/hotel.db"
+DATABASE_URL = "sqlite:///./app/databases/SQLite.db"
 
 # 2. Cria a conexão
 # "check_same_thread": False é necessário apenas para o SQLite trabalhar com FastAPI
