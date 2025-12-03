@@ -3,6 +3,7 @@ from datetime import date
 from typing import Optional
 
 # --- Pydantic (Para receber dados do usuário) ---
+
 class HotelCreate(BaseModel):
     nome: str
     estrelas: int

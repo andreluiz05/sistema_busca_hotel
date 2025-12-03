@@ -1,6 +1,6 @@
 # API Hoteis - AV2 Claudiane 🏖️
 
-![Version](https://img.shields.io/badge/version-0.1.5-blue)
+![Version](https://img.shields.io/badge/version-0.1.6-blue)
 ![OAS](https://img.shields.io/badge/OAS-3.1-orange)
 ![License](https://img.shields.io/badge/license-Apache_2.0-green)
 

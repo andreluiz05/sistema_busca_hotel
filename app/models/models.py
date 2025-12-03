@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from app.databases.database import Base
 
 # --- SQLAlchemy (Para salvar no banco) ---
+
 class HotelDB(Base):
     __tablename__ = "hoteis"
     
@@ -25,7 +26,7 @@ class AcomodacaoDB(Base):
     tipo = Column(String(50))
     capacidade = Column(Integer)
     preco_noite = Column(Float)
-    hotel_id = Column(Integer, ForeignKey("hoteis.id"))  # Foreign key para a tabela hotel
+    hotel_id = Column(Integer, ForeignKey("hoteis.id"))
     hotel = relationship("HotelDB", back_populates="acomodacoes")
     datas_reservadas = relationship("ReservaDB", back_populates="acomodacao")
 

@@ -42,11 +42,11 @@ tags_metadata = [
     
 ]
 
-# 3. Injete tudo isso no FastAPI
+# 3. Injeta tudo isso no FastAPI
 app = FastAPI(
     title="API Hoteis - AV2 Claudiane 🏖️",
     description=descricao_api,
-    version="0.1.4",
+    version="0.1.6",
     terms_of_service="http://example.com/terms/",
     contact={
         "name": "Link diretório GitHub",
